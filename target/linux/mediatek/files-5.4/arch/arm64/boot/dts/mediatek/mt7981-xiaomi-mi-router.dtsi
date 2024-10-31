@@ -54,9 +54,16 @@
 		};
 	};
 
-	gsw: gsw@0 {
+	gsw_mt753x: gsw@0 {
 		compatible = "mediatek,mt753x";
 		mediatek,ethsys = <&ethsys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	gsw_an8855: gsw@1 {
+		compatible = "airoha,an8855";
+		#mediatek,ethsys = <&ethsys>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 	};
@@ -105,30 +112,40 @@
 	};
 };
 
-&gsw {
+&gsw_mt753x {
 	mediatek,mdio = <&mdio>;
-	mediatek,mdio_master_pinmux = <0>;
+	mediatek,portmap = "lllll";
+	mediatek,mdio_master_pinmux = <1>;
+	reset-gpios = <&pio 39 0>;
+	interrupt-parent = <&pio>;
+	interrupts = <38 IRQ_TYPE_LEVEL_HIGH>;
+	status = "okay";
+
+	port6: port@6 {
+		compatible = "mediatek,mt753x-port";
+		reg = <6>;
+		phy-mode = "sgmii";
+		fixed-link {
+			speed = <2500>;
+			full-duplex;
+		};
+	};
+};
+
+&gsw_an8855 {
+	airoha,mdio = <&mdio>;
+	airoha,portmap = "lllll";
+	airoha,smi-addr = <6>;
 	reset-gpios = <&pio 39 0>;
 	interrupt-parent = <&pio>;
 	interrupts = <38 IRQ_TYPE_LEVEL_HIGH>;
 	status = "okay";
 
 	port5: port@5 {
-		compatible = "mediatek,mt753x-port";
+		compatible = "airoha,an8855-port";
 		reg = <5>;
-		phy-mode = "sgmii";
-
-		fixed-link {
-			speed = <2500>;
-			full-duplex;
-		};
-	};
-
-	port6: port@6 {
-		compatible = "mediatek,mt753x-port";
-		mediatek,ssc-on;
-		reg = <6>;
-		phy-mode = "sgmii";
+		phy-mode = "2500base-x";
+		/* airoha,stag-on = <1>; */
 
 		fixed-link {
 			speed = <2500>;

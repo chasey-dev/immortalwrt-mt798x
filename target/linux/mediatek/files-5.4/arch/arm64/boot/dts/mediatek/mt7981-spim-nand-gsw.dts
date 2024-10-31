@@ -88,12 +88,19 @@
 		status = "disabled";
 	};
 
-        gsw: gsw@0 {
-                compatible = "mediatek,mt753x";
-                mediatek,ethsys = <&ethsys>;
-                #address-cells = <1>;
-                #size-cells = <0>;
-        };
+    gsw_mt753x: gsw@0 {
+		compatible = "mediatek,mt753x";
+		mediatek,ethsys = <&ethsys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
+
+	gsw_an8855: gsw@1 {
+		compatible = "airoha,an8855";
+		#mediatek,ethsys = <&ethsys>;
+		#address-cells = <1>;
+		#size-cells = <0>;
+	};
 };
 
 &afe {
