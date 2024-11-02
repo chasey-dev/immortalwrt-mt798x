@@ -419,7 +419,7 @@ TARGET_DEVICES += xiaomi_mi-router-ax3000t-stock
 
 define Device/xiaomi_mi-router-an8855-mod-ax3000t-stock
   DEVICE_VENDOR := Xiaomi
-  DEVICE_MODEL := Mi Router AX3000T (stock layout)
+  DEVICE_MODEL := Mi Router AX3000T (stock layout & AN8855 Switch Chip)
   DEVICE_DTS := mt7981-xiaomi-mi-router-an8855-mod-ax3000t-stock
   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
   UBINIZE_OPTS := -E 5
@@ -448,7 +448,7 @@ TARGET_DEVICES += xiaomi_mi-router-ax3000t
 
 define Device/xiaomi_mi-router-an8855-mod-ax3000t
   DEVICE_VENDOR := Xiaomi
-  DEVICE_MODEL := Mi Router AX3000T
+  DEVICE_MODEL := Mi Router AX3000T (AN8855 Switch Chip)
   DEVICE_DTS := mt7981-xiaomi-mi-router-an8855-mod-ax3000t
   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
   UBINIZE_OPTS := -E 5
