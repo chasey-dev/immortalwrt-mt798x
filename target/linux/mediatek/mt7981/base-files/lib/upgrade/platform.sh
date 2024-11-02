@@ -177,6 +177,7 @@ xiaomi_mt7981_initial_setup()
 	local board=$(board_name)
 	case "$board" in
 	xiaomi,mi-router-ax3000t-stock|\
+	xiaomi,mi-router-an8855-mod-ax3000t-stock|\
 	xiaomi,mi-router-wr30u-stock)
 		fw_setenv mtdparts "nmbm0:1024k(bl2),256k(Nvram),256k(Bdata),2048k(factory),2048k(fip),256k(crash),256k(crash_log),34816k(ubi),34816k(ubi1),32768k(overlay),12288k(data),256k(KF)"
 		;;
@@ -189,6 +190,7 @@ platform_do_upgrade() {
 	case "$board" in
 	xiaomi,mi-router-wr30u-112m|\
 	xiaomi,mi-router-ax3000t|\
+	xiaomi,mi-router-an8855-mod-ax3000t|\
 	*mt3000* |\
 	glinet,x3000-emmc |\
 	*xe3000* |\
@@ -223,6 +225,7 @@ platform_do_upgrade() {
 		emmc_do_upgrade "$1"
 		;;
 	xiaomi,mi-router-ax3000t-stock|\
+	xiaomi,mi-router-an8855-mod-ax3000t-stock|\
 	xiaomi,mi-router-wr30u-stock)
 		xiaomi_mt7981_nand_upgrade_tar "$1"
 		;;
@@ -251,6 +254,7 @@ platform_check_image() {
 	xiaomi,mi-router-wr30u-stock|\
 	xiaomi,mi-router-wr30u-112m|\
 	xiaomi,mi-router-ax3000t* |\
+	xiaomi,mi-router-an8855-mod-ax3000t* |\
 	*abt,asr3000* |\
 	*cetron,ct3003* |\
 	*clt,r30b1* |\
@@ -296,6 +300,7 @@ platform_pre_upgrade() {
 
 	case "$board" in
 	xiaomi,mi-router-ax3000t-stock|\
+	xiaomi,mi-router-an8855-mod-ax3000t-stock|\
 	xiaomi,mi-router-wr30u-stock)
 		xiaomi_mt7981_initial_setup
 		;;

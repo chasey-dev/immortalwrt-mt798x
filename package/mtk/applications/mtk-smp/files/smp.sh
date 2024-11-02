@@ -755,6 +755,7 @@ setup_model()
 	cmcc,a10* |\
 	xiaomi,mi-router-wr30u* |\
 	xiaomi,mi-router-ax3000t* |\
+	xiaomi,mi-router-an8855-mod-ax3000t* |\
 	*rax3000m* |\
 	*cmcc,xr30* |\
 	h3c,nx30pro |\
