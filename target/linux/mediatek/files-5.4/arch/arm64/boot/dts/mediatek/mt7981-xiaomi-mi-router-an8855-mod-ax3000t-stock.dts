@@ -4,7 +4,7 @@
 #include "mt7981-xiaomi-mi-router.dtsi"
 
 / { 
-	model = "Xiaomi Mi Router AX3000T (stock layout)";
+	model = "Xiaomi Mi Router AX3000T (stock layout & AN8855 Switch Chip)";
 	compatible = "xiaomi,mi-router-an8855-mod-ax3000t-stock", "mediatek,mt7981";
 };
 
