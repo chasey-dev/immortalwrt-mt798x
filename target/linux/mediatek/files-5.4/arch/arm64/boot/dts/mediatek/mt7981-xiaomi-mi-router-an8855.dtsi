@@ -54,9 +54,9 @@
 		};
 	};
 
-	gsw: gsw_mt753x@0 {
-		compatible = "mediatek,mt753x";
-		mediatek,ethsys = <&ethsys>;
+	gsw_an8855: gsw@1 {
+		compatible = "airoha,an8855";
+		#mediatek,ethsys = <&ethsys>;
 		#address-cells = <1>;
 		#size-cells = <0>;
 	};
@@ -87,48 +87,27 @@
 		};
 	};
 
-	gmac1: mac@1 {
-		compatible = "mediatek,eth-mac";
-		reg = <1>;
-		phy-mode = "2500base-x";
-
-		fixed-link {
-			speed = <2500>;
-			full-duplex;
-			pause;
-		};
-	};
-
 	mdio: mdio-bus {
 		#address-cells = <1>;
 		#size-cells = <0>;
 	};
 };
 
-&gsw_mt753x {
-	mediatek,mdio = <&mdio>;
-	mediatek,mdio_master_pinmux = <0>;
+
+&gsw_an8855 {
+	airoha,mdio = <&mdio>;
+	airoha,portmap = "wllll";
+	airoha,smi-addr = <6>;
 	reset-gpios = <&pio 39 0>;
 	interrupt-parent = <&pio>;
 	interrupts = <38 IRQ_TYPE_LEVEL_HIGH>;
 	status = "okay";
 
 	port5: port@5 {
-		compatible = "mediatek,mt753x-port";
+		compatible = "airoha,an8855-port";
 		reg = <5>;
-		phy-mode = "sgmii";
-
-		fixed-link {
-			speed = <2500>;
-			full-duplex;
-		};
-	};
-
-	port6: port@6 {
-		compatible = "mediatek,mt753x-port";
-		mediatek,ssc-on;
-		reg = <6>;
-		phy-mode = "sgmii";
+		phy-mode = "2500base-x";
+		/* airoha,stag-on = <1>; */
 
 		fixed-link {
 			speed = <2500>;
@@ -138,9 +117,10 @@
 };
 
 &hnat {
-	mtketh-wan = "eth1";
+	mtketh-wan = "eth0.2";
+	mtketh-ppd = "eth0.1";
 	mtketh-lan = "eth0";
-	mtketh-max-gmac = <2>;
+	mtketh-max-gmac = <1>;
 	status = "okay";
 };
 

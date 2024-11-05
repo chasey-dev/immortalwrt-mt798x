@@ -8,9 +8,10 @@ service_triggers() {
 }
 
 start_service() {
-    logger -t "switch_ctl" "restart mt753x all ports"
+    logger -t "switch_ctl" "restart mt753x/an8855 all ports"
+    logger -t "switch_ctl" "do nothing first since we dont know actual behavior of an8855"
     source "/usr/sbin/switch_ctl.sh"
-    sw_poweroff_ports "0 1 2 3 4"
+    # sw_poweroff_ports "0 1 2 3 4"
     sleep 2
-    sw_poweron_ports "0 1 2 3 4"
+    #sw_poweron_ports "0 1 2 3 4"
 }

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-2.0-or-later OR MIT
 
 /dts-v1/;
-#include "mt7981-xiaomi-mi-router.dtsi"
+#include "mt7981-xiaomi-mi-router-an8855.dtsi"
 
 / { 
 	model = "Xiaomi Mi Router AX3000T (stock layout & AN8855 Switch Chip)";
