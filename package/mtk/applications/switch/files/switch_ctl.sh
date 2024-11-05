@@ -14,11 +14,16 @@ get_switch_type() {
 SWITCH_TYPE=$(get_switch_type)
 
 # set register address via switch type
-if [ "$SWITCH_TYPE" = "an8855" ]; then
-    REG_ADDR=1
-else
-    REG_ADDR=0
-fi
+# TODO: do noting in an8855 now
+# since we dont know whats changed in an8855
+
+REG_ADDR=0
+
+#if [ "$SWITCH_TYPE" = "an8855" ]; then
+#    REG_ADDR=1
+#else
+#    REG_ADDR=0
+#fi
 
 # shutdown ports
 # $1 port lists，eg："1 2 3"
