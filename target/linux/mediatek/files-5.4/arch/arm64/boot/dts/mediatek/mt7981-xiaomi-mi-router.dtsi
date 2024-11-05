@@ -54,7 +54,7 @@
 		};
 	};
 
-	gsw: gsw_mt753x@0 {
+	gsw_mt753x: gsw@0 {
 		compatible = "mediatek,mt753x";
 		mediatek,ethsys = <&ethsys>;
 		#address-cells = <1>;
