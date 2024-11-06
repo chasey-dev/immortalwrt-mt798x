@@ -9,7 +9,6 @@ service_triggers() {
 
 start_service() {
     logger -t "switch_ctl" "restart mt753x/an8855 all ports"
-    get_switch_type() {
     if [ -e /proc/air_sw/device ] && grep -q "an8855" /proc/air_sw/device; then
         logger -t "switch_ctl" "do nothing now since we dont know actual behavior of an8855"
     else
@@ -17,7 +16,5 @@ start_service() {
         sw_poweroff_ports "0 1 2 3 4"
         sleep 2
         sw_poweron_ports "0 1 2 3 4"
-    fi
-    }
-    
+    fi 
 }
