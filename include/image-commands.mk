@@ -27,6 +27,31 @@ define Build/append-kernel
 	dd if=$(IMAGE_KERNEL) >> $@
 endef
 
+define Build/append-image
+	cp "$(BIN_DIR)/$(IMAGE_PREFIX)-$(1)" "$@.stripmeta"
+	fwtool -s /dev/null -t "$@.stripmeta" || :
+	fwtool -i /dev/null -t "$@.stripmeta" || :
+	dd if="$@.stripmeta" >> "$@"
+	rm "$@.stripmeta"
+endef
+
+ifdef IB
+define Build/append-image-stage
+	dd if=$(STAGING_DIR_IMAGE)/$(BOARD)$(if $(SUBTARGET),-$(SUBTARGET))-$(DEVICE_NAME)-$(1) >> $@
+endef
+else
+define Build/append-image-stage
+	cp "$(BIN_DIR)/$(IMAGE_PREFIX)-$(1)" "$@.stripmeta"
+	fwtool -s /dev/null -t "$@.stripmeta" || :
+	fwtool -i /dev/null -t "$@.stripmeta" || :
+	mkdir -p "$(STAGING_DIR_IMAGE)"
+	dd if="$@.stripmeta" of="$(STAGING_DIR_IMAGE)/$(BOARD)$(if $(SUBTARGET),-$(SUBTARGET))-$(DEVICE_NAME)-$(1)"
+	dd if="$@.stripmeta" >> "$@"
+	rm "$@.stripmeta"
+endef
+endif
+
+
 compat_version=$(if $(DEVICE_COMPAT_VERSION),$(DEVICE_COMPAT_VERSION),1.0)
 json_quote=$(subst ','\'',$(subst ",\",$(1)))
 #")')
@@ -87,13 +112,25 @@ define Build/append-ubi
 		$(if $(UBOOTENV_IN_UBI),--uboot-env) \
 		$(if $(KERNEL_IN_UBI),--kernel $(IMAGE_KERNEL)) \
 		$(foreach part,$(UBINIZE_PARTS),--part $(part)) \
-		$(IMAGE_ROOTFS) \
+		--rootfs $(IMAGE_ROOTFS) \
 		$@.tmp \
 		-p $(BLOCKSIZE:%k=%KiB) -m $(PAGESIZE) \
 		$(if $(SUBPAGESIZE),-s $(SUBPAGESIZE)) \
 		$(if $(VID_HDR_OFFSET),-O $(VID_HDR_OFFSET)) \
 		$(UBINIZE_OPTS)
 	cat $@.tmp >> $@
+	rm $@.tmp
+endef
+
+define Build/ubinize-kernel
+	cp $@ $@.tmp
+	sh $(TOPDIR)/scripts/ubinize-image.sh \
+		--kernel $@.tmp \
+		$@ \
+		-p $(BLOCKSIZE:%k=%KiB) -m $(PAGESIZE) \
+		$(if $(SUBPAGESIZE),-s $(SUBPAGESIZE)) \
+		$(if $(VID_HDR_OFFSET),-O $(VID_HDR_OFFSET)) \
+		$(UBINIZE_OPTS)
 	rm $@.tmp
 endef
 
