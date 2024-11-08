@@ -20,6 +20,15 @@ endif
 ifneq ($(CONFIG_SDK)$(CONFIG_PACKAGE_kmod-b43)$(CONFIG_PACKAGE_b43legacy-firmware)$(CONFIG_BRCMSMAC_USE_FW_FROM_WL),)
   BUILD_B43_TOOLS = y
 endif
+ifneq ($(CONFIG_SDK)$(CONFIG_TARGET_INITRAMFS_COMPRESSION_BZIP2),)
+  BUILD_BZIP2_TOOLS = y
+endif
+ifneq ($(CONFIG_SDK)$(CONFIG_TARGET_INITRAMFS_COMPRESSION_LZ4),)
+  BUILD_LZ4_TOOLS = y
+endif
+ifneq ($(CONFIG_SDK)$(CONFIG_TARGET_INITRAMFS_COMPRESSION_LZO),)
+  BUILD_LZO_TOOLS = y
+endif
 
 tools-y += autoconf autoconf-archive automake bc bison cmake dosfstools
 tools-y += e2fsprogs fakeroot findutils firmware-utils flex gengetopt
@@ -27,8 +36,12 @@ tools-y += libressl libtool lzma m4 make-ext4fs missing-macros mkimage
 tools-y += mklibs mm-macros mtd-utils mtools ninja padjffs2 patch-image
 tools-y += patchelf pkgconf quilt squashfskit4 sstrip zip zlib zstd
 tools-y += crc32sum
+tools-y += cpio liblzo meson
 tools-$(BUILD_B43_TOOLS) += b43-tools
+tools-$(BUILD_BZIP2_TOOLS) += bzip2
 tools-$(BUILD_ISL) += isl
+tools-$(BUILD_LZ4_TOOLS) += lz4
+tools-$(BUILD_LZO_TOOLS) += lzop
 tools-$(BUILD_TOOLCHAIN) += expat gmp libelf mpc mpfr
 tools-$(CONFIG_EFI_IMAGES) += gptfdisk popt
 tools-$(CONFIG_TARGET_apm821xx)$(CONFIG_TARGET_gemini) += genext2fs
@@ -77,13 +90,19 @@ $(curdir)/squashfskit4/compile := $(curdir)/xz/compile $(curdir)/zlib/compile
 $(curdir)/zlib/compile := $(curdir)/cmake/compile
 $(curdir)/zstd/compile := $(curdir)/cmake/compile
 
+$(curdir)/liblzo/compile := $(curdir)/cmake/compile
+$(curdir)/lzop/compile := $(curdir)/cmake/compile $(curdir)/liblzo/compile
+$(curdir)/lz4/compile := $(curdir)/meson/compile
+$(curdir)/meson/compile := $(curdir)/ninja/compile
+
+
 ifneq ($(HOST_OS),Linux)
   $(curdir)/squashfskit4/compile += $(curdir)/coreutils/compile
   tools-y += coreutils
 endif
 
 ifneq ($(CONFIG_CCACHE)$(CONFIG_SDK),)
-$(foreach tool, $(filter-out xz zstd patch pkgconf libressl ninja cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
+$(foreach tool, $(filter-out xz zstd patch pkgconf libressl meson ninja cmake,$(tools-y)), $(eval $(curdir)/$(tool)/compile += $(curdir)/ccache/compile))
 tools-y += ccache
 $(curdir)/ccache/compile := $(curdir)/zstd/compile
 endif

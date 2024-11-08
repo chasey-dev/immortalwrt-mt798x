@@ -34,12 +34,13 @@ usage() {
 	printf "\n\t-S ==> add signature at configurations and assign its key_name_hint by 'key_name_hint'"
 	printf "\n\t-r ==> set anti-rollback version to 'fw_ar_ver' (dec)"
 	printf "\n\t-R ==> specify rootfs file for embedding hash\n"
+	printf "\n\t-i ==> include initrd Blob 'initrd'"		
 	exit 1
 }
 
 FDTNUM=1
 
-while getopts ":A:a:c:C:D:d:e:k:n:o:v:s:S:r:R:" OPTION
+while getopts ":A:a:c:C:D:d:e:k:n:o:v:s:S:r:R:i:" OPTION
 do
 	case $OPTION in
 		A ) ARCH=$OPTARG;;
@@ -57,6 +58,7 @@ do
 		S ) KEY_NAME_HINT=$OPTARG;;
 		r ) AR_VER=$OPTARG;;
 		R ) ROOTFS_FILE=$OPTARG;;
+		i ) INITRD=$OPTARG;;
 		* ) echo "Invalid option passed to '$0' (options:$*)"
 		usage;;
 	esac
@@ -89,6 +91,27 @@ if [ -n "${DTB}" ]; then
 		};
 "
 	FDT_PROP="fdt = \"fdt-$FDTNUM\";"
+fi
+
+# Conditionally create initrd information
+if [ -n "${INITRD}" ]; then
+	INITRD_NODE="
+		initrd-1 {
+			description = \"${ARCH_UPPER} OpenWrt ${DEVICE} initrd\";
+			data = /incbin/(\"${INITRD}\");
+			type = \"ramdisk\";
+			arch = \"${ARCH}\";
+			os = \"linux\";
+			compression = \"none\";
+			hash-1 {
+				algo = \"crc32\";
+			};
+			hash-2 {
+				algo = \"sha1\";
+			};
+		};
+"
+	INITRD_PROP="ramdisk = \"initrd-1\";"
 fi
 
 # Conditionally create rootfs hash information
@@ -198,6 +221,7 @@ ${ROOTFS_EXTRA_INFO}
 			};
 		};
 ${FDT_NODE}
+${INITRD_NODE}
 ${SCRIPT}
 	};
 
@@ -211,6 +235,7 @@ ${FW_AR_VER}
 ${LOADABLES}
 			kernel = \"kernel-1\";
 			${FDT_PROP}
+			${INITRD_PROP}
 ${SIGNATURE}
 		};
 	};
