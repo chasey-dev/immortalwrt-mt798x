@@ -6,7 +6,7 @@ ARCH:=arm
 BOARD:=mediatek
 BOARDNAME:=MediaTek Ralink ARM
 SUBTARGETS:=mt7986 mt7981
-FEATURES:=squashfs nand emmc ramdisk fpu
+FEATURES:=squashfs nand emmc ramdisk fpu separate_ramdisk
 
 KERNEL_PATCHVER:=5.4
 KERNEL_TESTING_PATCHVER:=5.4

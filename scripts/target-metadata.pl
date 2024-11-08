@@ -38,6 +38,7 @@ sub target_config_features(@) {
 		/^nommu$/ and $ret .= "\tselect NOMMU\n";
 		/^mips16$/ and $ret .= "\tselect HAS_MIPS16\n";
 		/^rfkill$/ and $ret .= "\tselect RFKILL_SUPPORT\n";
+		/^separate_ramdisk$/ and $ret .= "\tselect USES_INITRAMFS\n\tselect USES_SEPARATE_INITRAMFS\n";
 		/^low_mem$/ and $ret .= "\tselect LOW_MEMORY_FOOTPRINT\n";
 		/^small_flash$/ and $ret .= "\tselect SMALL_FLASH\n";
 		/^nand$/ and $ret .= "\tselect NAND_SUPPORT\n";
