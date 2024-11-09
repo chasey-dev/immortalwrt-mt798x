@@ -220,12 +220,13 @@ ${ROOTFS_EXTRA_INFO}
 				algo = \"sha1\";
 			};
 		};
+${INITRD_NODE}		
 ${FDT_NODE}
-${INITRD_NODE}
 ${SCRIPT}
+${ROOTFS}
 	};
 
-${ROOTFS}
+
 
 	configurations {
 		default = \"${CONFIG}\";
@@ -235,7 +236,7 @@ ${FW_AR_VER}
 ${LOADABLES}
 			kernel = \"kernel-1\";
 			${FDT_PROP}
-			${INITRD_PROP}
+			${INITRD_PROP}			
 ${SIGNATURE}
 		};
 	};
