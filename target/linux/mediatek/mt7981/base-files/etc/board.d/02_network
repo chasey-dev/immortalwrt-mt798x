@@ -32,10 +32,15 @@ mediatek_setup_interfaces()
 
 	xiaomi,mi-router-an8855-mod-ax3000t*)
 		# try to clarify the model by an8855 chip:
-		 ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
-		 ucidef_add_switch "switch0" \
-			 "1:lan" "2:lan" "3:lan" "0:wan" "5t@eth0"
+		# dsa
+		ucidef_set_interfaces_lan_wan "lan1 lan2 lan3" wan
 		;;
+		# gsw - tested but we are in dsa now
+		# ucidef_set_interfaces_lan_wan "eth0.1" "eth0.2"
+		# ucidef_add_switch "switch0" \
+		#	 "1:lan" "2:lan" "3:lan" "0:wan" "5t@eth0"
+		# ;;
+
 		# from mtk upstream
 		# *8855-gsw*)
 		# ucidef_set_interfaces_lan_wan "eth0" "eth1"

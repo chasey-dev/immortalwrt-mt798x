@@ -54,13 +54,6 @@
 		};
 	};
 
-	gsw_an8855: gsw@1 {
-		compatible = "airoha,an8855";
-		#mediatek,ethsys = <&ethsys>;
-		#address-cells = <1>;
-		#size-cells = <0>;
-	};
-
 	nmbm_spim_nand: nmbm_spim_nand {
 		compatible = "generic,nmbm";
 
@@ -90,36 +83,55 @@
 	mdio: mdio-bus {
 		#address-cells = <1>;
 		#size-cells = <0>;
+
+		switch@1 {
+			compatible = "airoha,an8855";
+			reg = <1>;
+			reset-gpios = <&pio 39 0>;
+			changesmiaddr = <6>;
+			ports {
+				#address-cells = <1>;
+				#size-cells = <0>;
+				port@0 {
+					reg = <0>;
+					label = "wan";
+				};
+
+				port@1 {
+					reg = <1>;
+					label = "lan1";
+				};
+
+				port@2 {
+					reg = <2>;
+					label = "lan2";
+				};
+
+				port@3 {
+					reg = <3>;
+					label = "lan3";
+				};
+
+				port@5 {
+					reg = <5>;
+					label = "cpu";
+					ethernet = <&gmac0>;
+					phy-mode = "2500base-x";
+					fixed-link {
+						speed = <2500>;
+						full-duplex;
+						pause;
+					};
+				};
+			};
+		};		
 	};
 };
 
-
-&gsw_an8855 {
-	airoha,mdio = <&mdio>;
-	airoha,portmap = "wllll";
-	airoha,smi-addr = <6>;
-	reset-gpios = <&pio 39 0>;
-	interrupt-parent = <&pio>;
-	interrupts = <38 IRQ_TYPE_LEVEL_HIGH>;
-	status = "okay";
-
-	port5: port@5 {
-		compatible = "airoha,an8855-port";
-		reg = <5>;
-		phy-mode = "2500base-x";
-		/* airoha,stag-on = <1>; */
-
-		fixed-link {
-			speed = <2500>;
-			full-duplex;
-		};
-	};
-};
 
 &hnat {
-	mtketh-wan = "eth0.2";
-	mtketh-ppd = "eth0.1";
-	mtketh-lan = "eth0";
+	mtketh-wan = "wan";
+	mtketh-lan = "lan";
 	mtketh-max-gmac = <1>;
 	status = "okay";
 };
