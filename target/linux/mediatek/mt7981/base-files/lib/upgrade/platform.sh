@@ -230,7 +230,7 @@ platform_do_upgrade() {
 		emmc_do_upgrade "$1"
 		;;
 	xiaomi,mi-router-ax3000t-stock|\
-	xiaomi,mi-router-ax3000t-an8855-stock|\	
+	xiaomi,mi-router-ax3000t-an8855-stock|\
 	xiaomi,mi-router-wr30u-stock)
 		xiaomi_mt7981_nand_upgrade_tar "$1"
 		;;
