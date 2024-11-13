@@ -417,10 +417,10 @@ define Device/xiaomi_mi-router-ax3000t-stock
 endef
 TARGET_DEVICES += xiaomi_mi-router-ax3000t-stock
 
-define Device/xiaomi_mi-router-an8855-mod-ax3000t-stock
+define Device/xiaomi_mi-router-ax3000t-an8855-stock
   DEVICE_VENDOR := Xiaomi
-  DEVICE_MODEL := Mi Router AX3000T (stock layout & AN8855 Switch Chip)
-  DEVICE_DTS := mt7981-xiaomi-mi-router-an8855-mod-ax3000t-stock
+  DEVICE_MODEL := Mi Router AX3000T with AN8855 (stock layout)
+  DEVICE_DTS := mt7981-xiaomi-mi-router-ax3000t-an8855-stock
   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
   UBINIZE_OPTS := -E 5
   BLOCKSIZE := 128k
@@ -428,7 +428,7 @@ define Device/xiaomi_mi-router-an8855-mod-ax3000t-stock
   IMAGE_SIZE := 34816k
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
-TARGET_DEVICES += xiaomi_mi-router-an8855-mod-ax3000t-stock
+TARGET_DEVICES += xiaomi_mi-router-ax3000t-an8855-stock
 
 define Device/xiaomi_mi-router-ax3000t
   DEVICE_VENDOR := Xiaomi
@@ -446,10 +446,10 @@ define Device/xiaomi_mi-router-ax3000t
 endef
 TARGET_DEVICES += xiaomi_mi-router-ax3000t
 
-define Device/xiaomi_mi-router-an8855-mod-ax3000t
+define Device/xiaomi_mi-router-ax3000t-an8855
   DEVICE_VENDOR := Xiaomi
-  DEVICE_MODEL := Mi Router AX3000T (AN8855 Switch Chip)
-  DEVICE_DTS := mt7981-xiaomi-mi-router-an8855-mod-ax3000t
+  DEVICE_MODEL := Mi Router AX3000T with AN8855
+  DEVICE_DTS := mt7981-xiaomi-mi-router-ax3000t-an8855
   DEVICE_DTS_DIR := $(DTS_DIR)/mediatek
   UBINIZE_OPTS := -E 5
   BLOCKSIZE := 128k
@@ -460,7 +460,7 @@ define Device/xiaomi_mi-router-an8855-mod-ax3000t
   IMAGE/factory.bin := append-ubi | check-size $$$$(IMAGE_SIZE)
   IMAGE/sysupgrade.bin := sysupgrade-tar | append-metadata
 endef
-TARGET_DEVICES += xiaomi_mi-router-an8855-mod-ax3000t
+TARGET_DEVICES += xiaomi_mi-router-ax3000t-an8855
 
 define Device/glinet_gl-mt3000
   DEVICE_VENDOR := GL.iNet
