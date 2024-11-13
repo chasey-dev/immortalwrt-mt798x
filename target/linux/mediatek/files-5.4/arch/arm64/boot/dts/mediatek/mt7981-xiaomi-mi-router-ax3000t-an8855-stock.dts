@@ -4,8 +4,8 @@
 #include "mt7981-xiaomi-mi-router-an8855.dtsi"
 
 / { 
-	model = "Xiaomi Mi Router AX3000T (AN8855 Switch Chip)";
-	compatible = "xiaomi,mi-router-an8855-mod-ax3000t", "mediatek,mt7981";
+	model = "Xiaomi Mi Router AX3000T with AN8855 (stock layout)";
+	compatible = "xiaomi,mi-router-ax3000t-an8855-stock", "mediatek,mt7981";
 };
 
 &i2c0 {
@@ -20,11 +20,23 @@
 };
 
 &partitions {
+	// ubi_kernel is the ubi partition in stock.
 	partition@600000 {
-		label = "ubi";
-		reg = <0x600000 0x7000000>;
+		label = "ubi_kernel";
+		reg = <0x600000 0x2200000>;
 	};
 
+	/* ubi is the result of squashing
+	 * consecutive stock partitions:
+	 * - ubi1
+	 * - overlay
+	 * - data
+	 */
+	partition@2800000 {
+		label = "ubi";
+		reg = <0x2800000 0x4e00000>;
+	};
+	
 	partition@7600000 {
 		label = "KF";
 		reg = <0x7600000 0x40000>;
